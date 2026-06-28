@@ -5,7 +5,11 @@ from app.services.resume_service import ResumeService
 from app.services.chunking_service import ChunkingService
 from app.services.embedding_service import EmbeddingService
 from app.services.qdrant_service import QdrantService
+from app.services.auth_service import AuthService
 
+def get_auth_service() -> AuthService:
+  return AuthService()
+  
 def get_qdrant_service() -> QdrantService:
     return QdrantService()
 

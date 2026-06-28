@@ -19,6 +19,13 @@ class Settings(BaseSettings):
   qdrant_host: str = Field(default="localhost")
   qdrant_port: int = Field(default=6333)
   collection_name: str = Field(default="portfolio_resume")
+
+  jwt_secret_key: str = Field(default="change-this-in-production")
+  jwt_algorithm: str = Field(default="HS256")
+  access_token_expire_minutes: int = Field(default=60)
+
+  admin_username: str = Field(default="admin")
+  admin_password_hash: str = Field(default="")
   
   model_config = SettingsConfigDict(
     env_file=".env",
