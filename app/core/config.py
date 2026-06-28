@@ -14,6 +14,11 @@ class Settings(BaseSettings):
 
   google_api_key: str = Field(default="")
   gemini_model: str = Field(default="gemini-2.5-flash")
+  embedding_model: str = Field(default="gemini-embedding-001")
+  
+  qdrant_host: str = Field(default="localhost")
+  qdrant_port: int = Field(default=6333)
+  collection_name: str = Field(default="portfolio_resume")
   
   model_config = SettingsConfigDict(
     env_file=".env",

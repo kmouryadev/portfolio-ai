@@ -7,13 +7,24 @@ from app.core.exceptions import AppException
 from app.core.logger import logger
 from app.schemas.resume import ResumeUploadResponse
 from app.utils.pdf import extract_text_from_pdf
+from app.services.chunking_service import ChunkingService
+from app.services.embedding_service import EmbeddingService
+from app.services.qdrant_service import QdrantService
 
 UPLOAD_DIR = Path("uploads/resumes")
 
 class ResumeService:
   """Handles resume file uploads."""
 
-  def __init__(self) -> None:
+  def __init__(
+    self, 
+    chunking_service: ChunkingService,
+    embedding_service: EmbeddingService,
+    qdrant_service: QdrantService
+  ) -> None:
+    self._chunking_service = chunking_service
+    self._embedding_service = embedding_service 
+    self._qdrant_service = qdrant_service
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
   async def upload_resume(
@@ -31,11 +42,35 @@ class ResumeService:
     content = await file.read()
     destination.write_bytes(content)
     extracted_text = extract_text_from_pdf(destination)
+    chunks = self._chunking_service.split_text(
+      extracted_text
+    )
     logger.info(
-      "Resume uploaded successfully. Extracted %d characters.",
-      len(extracted_text),
-      )
-
+      "Generated %d chunks.",
+      len(chunks),
+    )
+    embeddings = await self._embedding_service.generate_embeddings(
+      chunks
+    )
+    self._qdrant_service.create_collection(
+      vector_size=len(embeddings[0])
+    )
+    self._qdrant_service.store_embeddings(
+        chunks,
+        embeddings,
+    )
+    logger.info(
+      "Stored %d vectors in Qdrant.",
+      len(chunks),
+    )
+    logger.info(
+      "Generated %d embeddings.",
+      len(embeddings),
+    )
+    logger.info(
+      "Embedding dimension: %d",
+      len(embeddings[0]) if embeddings else 0,
+    )
     return ResumeUploadResponse(
       filename=filename,
       original_filename=file.filename,

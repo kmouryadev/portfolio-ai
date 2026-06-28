@@ -2,9 +2,25 @@ from app.services.chat_service import ChatService
 from app.services.gemini_service import GeminiService
 from app.services.prompt_service import PromptService
 from app.services.resume_service import ResumeService
+from app.services.chunking_service import ChunkingService
+from app.services.embedding_service import EmbeddingService
+from app.services.qdrant_service import QdrantService
 
+def get_qdrant_service() -> QdrantService:
+    return QdrantService()
+
+def get_embedding_service() -> EmbeddingService:
+  return EmbeddingService()
+  
+def get_chunking_service() -> ChunkingService:
+  return ChunkingService()
+  
 def get_resume_service() -> ResumeService:
-    return ResumeService()
+  return ResumeService(
+    chunking_service=get_chunking_service(),
+    embedding_service=get_embedding_service(),
+    qdrant_service=get_qdrant_service(),
+  )
   
 def get_prompt_service() -> PromptService:
   return PromptService()
