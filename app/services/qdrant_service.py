@@ -2,6 +2,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PointStruct
 from uuid import uuid4
 from app.core.config import settings
+from qdrant_client.models import Filter
 
 class QdrantService:
   """Handles communication with Qdrant."""
@@ -48,3 +49,24 @@ class QdrantService:
       collection_name=settings.collection_name,
       points=points,
     )
+  def search(
+    self,
+    embedding: list[float],
+    limit: int = 5,
+  ) -> list[str]:
+    results = self._client.query_points(
+      collection_name=settings.collection_name,
+      query=embedding,
+      limit=limit,
+    )
+    matches = []
+    for point in results.points:
+      matches.append(
+        {
+          "text": point.payload["text"],
+          "chunk_index": point.payload["chunk_index"],
+          "score": point.score,
+        }
+      )
+    return matches
+

@@ -22,3 +22,12 @@ class EmbeddingService:
       )
       embeddings.append(response.embeddings[0].values)
     return embeddings
+  async def generate_query_embedding(
+    self,
+    query: str,
+  ) -> list[float]:
+    response = self._client.models.embed_content(
+      model=self._model,
+      contents=query,
+    )
+    return response.embeddings[0].values
