@@ -13,7 +13,8 @@ class Settings(BaseSettings):
   port: int = Field(default=8000)
 
   google_api_key: str = Field(default="")
-
+  gemini_model: str = Field(default="gemini-2.5-flash")
+  
   model_config = SettingsConfigDict(
     env_file=".env",
     env_file_encoding="utf-8",
