@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from app.api.v1.health import router as health_router
 from app.api.v1.chat import router as chat_router
+from app.core.config import settings
 
 app = FastAPI(
-  title="AI Portfolio API",
+  title=settings.app_name,
+  version=settings.app_version,
   description="Production-ready AI Portfolio Backend",
-  version="1.0.0",
 )
 
 app.include_router(health_router)
@@ -14,5 +15,5 @@ app.include_router(chat_router)
 @app.get("/", tags=["Root"])
 async def root():
   return {
-    "message": "Welcome to AI Portfolio API"
+    "message": f"Welcome to {settings.app_name}"
   }
