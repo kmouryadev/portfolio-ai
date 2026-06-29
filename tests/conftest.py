@@ -1,3 +1,9 @@
+import os
+
+# Set dummy API key for testing to prevent google-genai client initialization 
+# error in CI environments
+os.environ.setdefault("GOOGLE_API_KEY", "mock_key_for_testing")
+
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
