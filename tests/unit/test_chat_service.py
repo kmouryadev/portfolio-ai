@@ -1,12 +1,12 @@
-import pytest
 from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 from app.schemas.chat import ChatResponse
 from app.services.chat_service import ChatService
 
 
 class TestChatService:
-
     @pytest.mark.asyncio
     async def test_send_message_success(self):
 
@@ -16,9 +16,7 @@ class TestChatService:
         )
 
         prompt_service = MagicMock()
-        prompt_service.build_chat_prompt.return_value = (
-            "Generated Prompt"
-        )
+        prompt_service.build_chat_prompt.return_value = "Generated Prompt"
 
         embedding_service = MagicMock()
         embedding_service.generate_query_embedding = AsyncMock(
@@ -50,10 +48,7 @@ class TestChatService:
             ChatResponse,
         )
 
-        assert (
-            response.answer
-            == "Karun has 3.5 years of experience."
-        )
+        assert response.answer == "Karun has 3.5 years of experience."
 
         embedding_service.generate_query_embedding.assert_awaited_once()
 
@@ -62,23 +57,18 @@ class TestChatService:
         prompt_service.build_chat_prompt.assert_called_once()
 
         gemini_service.generate.assert_awaited_once()
+
     @pytest.mark.asyncio
     async def test_send_message_without_context(self):
 
         gemini_service = MagicMock()
-        gemini_service.generate = AsyncMock(
-            return_value="Fallback"
-        )
+        gemini_service.generate = AsyncMock(return_value="Fallback")
 
         prompt_service = MagicMock()
-        prompt_service.build_chat_prompt.return_value = (
-            "Prompt"
-        )
+        prompt_service.build_chat_prompt.return_value = "Prompt"
 
         embedding_service = MagicMock()
-        embedding_service.generate_query_embedding = AsyncMock(
-            return_value=[0.1]
-        )
+        embedding_service.generate_query_embedding = AsyncMock(return_value=[0.1])
 
         qdrant_service = MagicMock()
         qdrant_service.search.return_value = []
@@ -90,8 +80,6 @@ class TestChatService:
             qdrant_service,
         )
 
-        response = await service.send_message(
-            "Unknown question"
-        )
+        response = await service.send_message("Unknown question")
 
         assert response.answer == "Fallback"

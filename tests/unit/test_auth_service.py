@@ -7,7 +7,6 @@ from app.services.auth_service import AuthService
 
 
 class TestAuthService:
-
     @pytest.mark.asyncio
     async def test_login_success(self, monkeypatch):
 
@@ -39,7 +38,6 @@ class TestAuthService:
         service = AuthService()
 
         with pytest.raises(AppException):
-
             await service.login(
                 username="wrong",
                 password="AriseMonarch",
@@ -66,7 +64,6 @@ class TestAuthService:
         )
 
         with pytest.raises(AppException):
-
             await service.login(
                 username="karun",
                 password="WrongPassword",

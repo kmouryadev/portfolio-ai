@@ -1,21 +1,22 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+
 class ChunkingService:
-  """Service responsible for splitting text into chunks."""
-  
-  def __init__(
-      self,
-      chunk_size: int = 1000,
-      chunk_overlap: int = 200,
-  ) -> None:
-    self._text_splitter = RecursiveCharacterTextSplitter(
-      chunk_size=chunk_size,
-      chunk_overlap=chunk_overlap,
-      length_function=len,
-    )
-  
-  def split_text(
-    self,
-    text: str,
-  ) -> list[str]:
-    return self._text_splitter.split_text(text)
+    """Service responsible for splitting text into chunks."""
+
+    def __init__(
+        self,
+        chunk_size: int = 1000,
+        chunk_overlap: int = 200,
+    ) -> None:
+        self._text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            length_function=len,
+        )
+
+    def split_text(
+        self,
+        text: str,
+    ) -> list[str]:
+        return self._text_splitter.split_text(text)
