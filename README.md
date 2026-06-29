@@ -152,8 +152,10 @@ Copy `.env.example` to `.env` and configure the following parameters:
 | `GOOGLE_API_KEY` | Google Gemini AI Platform API Key | *Required* |
 | `GEMINI_MODEL` | Gemini LLM model to use for generation | `gemini-2.5-flash` |
 | `EMBEDDING_MODEL` | Embedding model to use for vectors | `gemini-embedding-001` |
-| `QDRANT_HOST` | Host address for Qdrant DB | `localhost` |
-| `QDRANT_PORT` | Port for Qdrant DB | `6333` |
+| `QDRANT_URL` | Cloud URL for Qdrant Cluster (optional) | `None` |
+| `QDRANT_API_KEY` | API Key for Qdrant Cloud Cluster (optional) | `None` |
+| `QDRANT_HOST` | Host address for local Qdrant DB | `localhost` |
+| `QDRANT_PORT` | Port for local Qdrant DB | `6333` |
 | `COLLECTION_NAME` | Vector collection name in Qdrant | `portfolio_resume` |
 | `JWT_SECRET_KEY` | Secret key used for signing JWT tokens | *Required in Prod* |
 | `JWT_ALGORITHM` | Algorithm used for JWT encoding | `HS256` |

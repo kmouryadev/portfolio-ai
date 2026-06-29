@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     gemini_model: str = Field(default="gemini-2.5-flash")
     embedding_model: str = Field(default="gemini-embedding-001")
 
+    qdrant_url: str | None = Field(default=None)
+    qdrant_api_key: str | None = Field(default=None)
     qdrant_host: str = Field(default="localhost")
     qdrant_port: int = Field(default=6333)
     collection_name: str = Field(default="portfolio_resume")
