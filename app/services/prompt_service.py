@@ -3,7 +3,7 @@ class PromptService:
   def build_chat_prompt(
     self,
     question: str,
-    context: list[str],
+    context: list[dict],
   ) -> str:
     resume_context = "\n\n".join(item["text"] for item in context)
     return f"""

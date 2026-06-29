@@ -53,3 +53,14 @@ faiss_index/
 .cache/
 temp/
 tmp/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Pytest
+.pytest_cache/
+
+# Python cache
+__pycache__/
+*.pyc
